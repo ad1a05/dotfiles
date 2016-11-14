@@ -11,8 +11,12 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-"YouCompleteMe needs to be compiled and installed after PluginInstall
-"$ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
+"full path fuzzy file, buffer, mru, tag, ...finder
+Plugin 'ctrlpvim/ctrlp.vim'
+
+"YouCompleteMe needs to be compiled and installed after PluginInstall:
+"1. Install cmake and python-dev and python3-dev;
+"2. $ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
 Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
@@ -52,7 +56,7 @@ set hidden  "switch buffer without saving
 
 """status line
 set laststatus=2    "always show status line
-set statusline=\ %F%m%r%h\ %=\ %p%%
+"set statusline=\ %F%m%r%h\ %=\ %p%%
 
 """table
 set showtabline=2   "always show tab line
@@ -83,6 +87,10 @@ set encoding=utf8
 
 """Key mappings
 let mapleader=','
+""remap <ESC>
+noremap <C-f> <esc>
+inoremap <C-f> <esc>
+cnoremap <C-f> <End><C-u><esc>
 ""Insert and Command-line
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
@@ -107,6 +115,13 @@ map <leader>tn :tabnew<cr>
 "next/prev error
 map <leader>n :cn<cr>
 map <leader>p :cp<cr>
+"shortcuts for vim-youcompleteme
+map <C-g> :YcmCompleter GoTo<cr>
+"use <C-o>/<C-i> to jump through jumplist, and `` to jump between two positions
 
 """ Colors
 set t_Co=256    "Number of terminal colors
+"color of status line
+colorscheme default
+highlight StatusLine term=reverse cterm=reverse gui=reverse ctermfg=Grey guifg=Grey
+highlight StatusLineNC term=reverse cterm=reverse gui=reverse ctermfg=DarkGrey guifg=DarkGrey
