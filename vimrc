@@ -1,9 +1,26 @@
 set nocompatible    "not compatible with vi
 
-set history=100
+filetype off
+
+"""Vundle plugin management
+"$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"Run :PluginInstall to install plugins with Vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+"YouCompleteMe needs to be compiled and installed after PluginInstall
+"$ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
+Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()
 
 filetype plugin on
 filetype indent on 
+
+set history=100
 
 set autoread    "auto read when file updated outside
 
