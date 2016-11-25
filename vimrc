@@ -86,11 +86,12 @@ set encoding=utf8
 
 
 """Key mappings
-let mapleader=','
+"let mapleader=','
+map <space> <leader>
 ""remap <ESC>
 noremap <C-f> <esc>
 inoremap <C-f> <esc>
-cnoremap <C-f> <End><C-u><esc>
+cnoremap <C-f> <End><C-u><backspace>
 ""Insert and Command-line
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
@@ -104,11 +105,21 @@ noremap! <C-l> <right>
 ""arrows to switch buffers
 map <right> :bn<cr>
 map <left>  :bp<cr>
-""switch windows by Ctrl+jkhl under normal mode
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-h> <C-w>h
-map <C-l> <C-w>l
+noremap <C-j> j
+noremap <C-k> k
+noremap <C-h> h
+noremap <C-l> l
+noremap J 5j
+noremap K 5k
+noremap H b
+noremap L w
+noremap <leader>J :join<cr>
+noremap <leader>K K
+""switch windows by <leader>jkhl under normal mode
+map <leader>j <C-w>j
+map <leader>k <C-w>k
+map <leader>h <C-w>h
+map <leader>l <C-w>l
 ""table operations
 map <leader>tn :tabnew<cr>
 "gt/gT for :tabnext/:tabprevious
