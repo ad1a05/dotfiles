@@ -2,24 +2,26 @@ set nocompatible    "not compatible with vi
 
 filetype off
 
-"""Vundle plugin management
-"$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"Run :PluginInstall to install plugins with Vundle
-set runtimepath+=~/.vim/bundle/Vundle.vim
+if !empty(glob('~/.vim/bundle/Vundle.vim'))
+    """Vundle plugin management
+    "$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    "Run :PluginInstall to install plugins with Vundle
+    set runtimepath+=~/.vim/bundle/Vundle.vim
 
-call vundle#begin()
+    call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
+    Plugin 'VundleVim/Vundle.vim'
 
-"full path fuzzy file, buffer, mru, tag, ...finder
-Plugin 'ctrlpvim/ctrlp.vim'
+    "full path fuzzy file, buffer, mru, tag, ...finder
+    Plugin 'ctrlpvim/ctrlp.vim'
 
-"YouCompleteMe needs to be compiled and installed after PluginInstall:
-"1. Install cmake and python-dev and python3-dev;
-"2. $ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
-Plugin 'Valloric/YouCompleteMe'
+    "YouCompleteMe needs to be compiled and installed after PluginInstall:
+    "1. Install cmake and python-dev and python3-dev;
+    "2. $ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
+    Plugin 'Valloric/YouCompleteMe'
 
-call vundle#end()
+    call vundle#end()
+endif
 
 filetype plugin on
 filetype indent on 
@@ -56,10 +58,16 @@ set hidden  "switch buffer without saving
 
 """status line
 set laststatus=2    "always show status line
-"set statusline=\ %F%m%r%h\ %=\ %p%%
+set statusline=%n:\ 
+set statusline+=%f\ [%{getcwd()}]
+set statusline+=%m%r%h\ 
+set statusline+=%=
+set statusline+=%l,%c\ \ 
+set statusline+=%p%%
 
 """table
 set showtabline=2   "always show tab line
+set splitbelow      "show preview window at bottom
 
 """search
 set ignorecase  "ignore case when searching
