@@ -15,10 +15,16 @@ if !empty(glob('~/.vim/bundle/Vundle.vim'))
     "full path fuzzy file, buffer, mru, tag, ...finder
     Plugin 'ctrlpvim/ctrlp.vim'
 
+    "easymotion
+    Plugin 'easymotion/vim-easymotion'
+
+    "nerdtree
+    Plugin 'scrooloose/nerdtree'
+
     "YouCompleteMe needs to be compiled and installed after PluginInstall:
     "1. Install cmake and python-dev and python3-dev;
     "2. $ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
-    Plugin 'Valloric/YouCompleteMe'
+    "Plugin 'Valloric/YouCompleteMe'
 
     call vundle#end()
 endif
@@ -55,6 +61,7 @@ set ruler
 set cmdheight=2
 set showcmd "show (partial) command in the last line of the screen
 set hidden  "switch buffer without saving
+set splitbelow  "split window below current one
 
 """status line
 set laststatus=2    "always show status line
@@ -94,15 +101,19 @@ set encoding=utf8
 
 
 """Key mappings
-"let mapleader=','
-map <space> <leader>
+let mapleader = "\<Space>"
+"let localmapleader=','
 ""remap <ESC>
-noremap <C-f> <esc>
-inoremap <C-f> <esc>
-cnoremap <C-f> <End><C-u><backspace>
+"noremap <C-f> <esc>
+"inoremap <C-f> <esc>
+"cnoremap <C-f> <End><C-u><backspace>
 ""Insert and Command-line
 noremap! <C-a> <Home>
 noremap! <C-e> <End>
+noremap! <C-f> <right>
+noremap! <C-b> <left>
+noremap! <C-p> <up>
+noremap! <C-n> <down>
 "move cursor around under insert mode
 noremap! <C-j> <down>
 noremap! <C-k> <up>
@@ -130,6 +141,8 @@ map <leader>h <C-w>h
 map <leader>l <C-w>l
 ""table operations
 map <leader>tn :tabnew<cr>
+map <Tab> :tabnext<cr>
+map <S-Tab> :tabprevious<cr>
 "gt/gT for :tabnext/:tabprevious
 "next/prev error
 map <leader>n :cn<cr>
