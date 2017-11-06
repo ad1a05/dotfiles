@@ -20,6 +20,9 @@ if !empty(glob('~/.vim/bundle/Vundle.vim'))
 
     "nerdtree
     Plugin 'scrooloose/nerdtree'
+    
+    "cscope key mapping
+    Plugin 'ad1a05/cscope_maps.vim'
 
     "YouCompleteMe needs to be compiled and installed after PluginInstall:
     "1. Install cmake and python-dev and python3-dev;
