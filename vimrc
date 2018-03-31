@@ -2,34 +2,39 @@ set nocompatible    "not compatible with vi
 
 filetype off
 
-if !empty(glob('~/.vim/bundle/Vundle.vim'))
-    """Vundle plugin management
-    "$ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    "Run :PluginInstall to install plugins with Vundle
-    set runtimepath+=~/.vim/bundle/Vundle.vim
+if !empty(glob('~/.vim/autoload/plug.vim'))
+    "curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    "    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    call plug#begin('~/.vim/plugged')
 
-    call vundle#begin()
+    Plug 'altercation/vim-colors-solarized'
 
-    Plugin 'VundleVim/Vundle.vim'
-
-    "full path fuzzy file, buffer, mru, tag, ...finder
-    Plugin 'ctrlpvim/ctrlp.vim'
-
-    "easymotion
-    Plugin 'easymotion/vim-easymotion'
-
-    "nerdtree
-    Plugin 'scrooloose/nerdtree'
+    "fzf
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
     
-    "cscope key mapping
-    Plugin 'ad1a05/cscope_maps.vim'
+    "lightline
+    "Plug 'itchyny/lightline.vim'
+    "let g:lightline = {'colorscheme': 'seoul256', }
 
-    "YouCompleteMe needs to be compiled and installed after PluginInstall:
-    "1. Install cmake and python-dev and python3-dev;
-    "2. $ cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
-    "Plugin 'Valloric/YouCompleteMe'
+    "airline
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
-    call vundle#end()
+    Plug 'scrooloose/nerdtree'
+    Plug 'ad1a05/cscope_maps.vim'
+
+    "deoplete
+    if has('nvim')
+        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    else
+        Plug 'Shougo/deoplete.nvim'
+        Plug 'roxma/nvim-yarp'
+        Plug 'roxma/vim-hug-neovim-rpc'
+    endif
+    "let g:deoplete#enable_at_startup = 1
+
+    call plug#end()
 endif
 
 filetype plugin on
@@ -102,61 +107,84 @@ syntax enable
 set number
 set encoding=utf8
 
-
-"""Key mappings
 let mapleader = "\<Space>"
 "let localmapleader=','
-""remap <ESC>
-"noremap <C-f> <esc>
-"inoremap <C-f> <esc>
-"cnoremap <C-f> <End><C-u><backspace>
-""Insert and Command-line
-noremap! <C-a> <Home>
-noremap! <C-e> <End>
-noremap! <C-f> <right>
-noremap! <C-b> <left>
-noremap! <C-p> <up>
-noremap! <C-n> <down>
-"move cursor around under insert mode
-noremap! <C-j> <down>
-noremap! <C-k> <up>
-noremap! <C-h> <left>
-noremap! <C-l> <right>
 
-"Normal, Visual, Select, Operator-pending modes
-""arrows to switch buffers
-map <right> :bn<cr>
-map <left>  :bp<cr>
-noremap <C-j> j
-noremap <C-k> k
-noremap <C-h> h
-noremap <C-l> l
-noremap J 5j
-noremap K 5k
-noremap H b
-noremap L w
-noremap <leader>J :join<cr>
-noremap <leader>K K
-""switch windows by <leader>jkhl under normal mode
-map <leader>j <C-w>j
-map <leader>k <C-w>k
-map <leader>h <C-w>h
-map <leader>l <C-w>l
-""table operations
-map <leader>tn :tabnew<cr>
-map <Tab> :tabnext<cr>
-map <S-Tab> :tabprevious<cr>
-"gt/gT for :tabnext/:tabprevious
-"next/prev error
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
-"shortcuts for vim-youcompleteme
-map <C-g> :YcmCompleter GoTo<cr>
-"use <C-o>/<C-i> to jump through jumplist, and `` to jump between two positions
+function InitKeyMappings()
+    ""Insert and Command-line
+    noremap! <C-a> <Home>
+    noremap! <C-e> <End>
+    noremap! <C-f> <right>
+    noremap! <C-b> <left>
+    noremap! <C-p> <up>
+    noremap! <C-n> <down>
+
+    "move cursor around under insert mode
+    noremap! <C-j> <down>
+    noremap! <C-k> <up>
+    noremap! <C-h> <left>
+    noremap! <C-l> <right>
+
+    "Normal, Visual, Select, Operator-pending modes
+    ""arrows to switch buffers
+    map <Tab> :bn<cr>
+    map <S-Tab> :bp<cr>
+    noremap <C-j> j
+    noremap <C-k> k
+    noremap <C-h> h
+    noremap <C-l> l
+    ""switch windows by <leader>w under normal mode
+    map <leader>wj <C-w>j
+    map <leader>wk <C-w>k
+    map <leader>wh <C-w>h
+    map <leader>wl <C-w>l
+    ""switch buffers by <leaders>b under normal mode
+    map <leader>bh :bp<cr>
+    map <leader>bl :bn<cr>
+    map <leader>bj :b#<cr>
+    map <leader>bk :b#<cr>
+
+    "next/prev error
+    map <leader>n :cn<cr>
+    map <leader>p :cp<cr>
+
+    "fzf
+    map <leader>f :Files<cr>
+endfunction
 
 """ Colors
-set t_Co=256    "Number of terminal colors
-"color of status line
-colorscheme default
-highlight StatusLine term=reverse cterm=reverse gui=reverse ctermfg=Grey guifg=Grey
-highlight StatusLineNC term=reverse cterm=reverse gui=reverse ctermfg=DarkGrey guifg=DarkGrey
+function InitColor()
+    set t_Co=256    "Number of terminal colors
+    try
+        let g:solarized_termcolors=256
+        set background=dark
+        colorscheme solarized
+    catch /^Vim\%((\a\+)\)\=:E185/
+        set background=dark
+        colorscheme default
+        highlight StatusLine term=reverse cterm=reverse gui=reverse ctermfg=Grey guifg=Grey
+        highlight StatusLineNC term=reverse cterm=reverse gui=reverse ctermfg=DarkGrey guifg=DarkGrey
+    endtry
+endfunction
+
+"cscope
+function InitCscope()
+    set cscopetag 
+    set cscopeprg='gtags-cscope'
+    cscope add GTAGS 
+    let GtagsCscope_Auto_Load = 1
+    let CtagsCscope_Auto_Map = 1
+    let GtagsCscope_Quiet = 1
+endfunction
+
+function InitAirlineStyle()
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_theme='dark'
+    let g:airline_theme='solarized'
+endfunction
+
+call InitKeyMappings()
+call InitColor()
+call InitCscope()
+call InitAirlineStyle()
+
