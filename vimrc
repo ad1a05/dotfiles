@@ -13,26 +13,9 @@ if !empty(glob('~/.vim/autoload/plug.vim'))
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     
-    "lightline
-    "Plug 'itchyny/lightline.vim'
-    "let g:lightline = {'colorscheme': 'seoul256', }
-
     "airline
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
-
-    Plug 'scrooloose/nerdtree'
-    Plug 'ad1a05/cscope_maps.vim'
-
-    "deoplete
-    if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-        Plug 'Shougo/deoplete.nvim'
-        Plug 'roxma/nvim-yarp'
-        Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-    "let g:deoplete#enable_at_startup = 1
 
     call plug#end()
 endif
@@ -149,7 +132,11 @@ function InitKeyMappings()
     map <leader>p :cp<cr>
 
     "fzf
-    map <leader>f :Files<cr>
+    map <leader>ff :Files<cr>
+    map <leader>fb :Buffers<cr>
+    map <leader>ft :Tags<cr>
+    map <leader>fl :Lines<cr>
+
 endfunction
 
 """ Colors
@@ -167,16 +154,6 @@ function InitColor()
     endtry
 endfunction
 
-"cscope
-function InitCscope()
-    set cscopetag 
-    set cscopeprg='gtags-cscope'
-    cscope add GTAGS 
-    let GtagsCscope_Auto_Load = 1
-    let CtagsCscope_Auto_Map = 1
-    let GtagsCscope_Quiet = 1
-endfunction
-
 function InitAirlineStyle()
     let g:airline#extensions#tabline#enabled = 1
     let g:airline_theme='dark'
@@ -185,6 +162,5 @@ endfunction
 
 call InitKeyMappings()
 call InitColor()
-call InitCscope()
 call InitAirlineStyle()
 
